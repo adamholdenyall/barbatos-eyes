@@ -62,18 +62,28 @@ def wheel(pos):
         pos -= 170
         return (0, int(pos*3), int(255 - pos*3))
 
+def getColorString(color,text):
+    return ('\033[1;48;2;'+str(color[0])+';'+str(color[1])+';'+str(color[2])+'m'+text+'\033[0m');
+        
 ######################### MAIN LOOP ##############################
 
 i = 0
 while True:
   # spin internal LED around! autoshow is on
-  dot[0] = wheel(i & 255)
+  colorString = ''
+  dotColor = wheel(i & 255)
+  dot[0] = dotColor
+  colorString += getColorString(dotColor,' ')
 
   # also make the neopixels swirl around
   for p in range(NUMPIXELS):
       idx = int ((p * 256 / NUMPIXELS) + i)
-      neopixels[p] = wheel(idx & 255)
+      npColor = wheel(idx & 255)
+      neopixels[p] = npColor
+      colorString += getColorString(npColor,' ')
   neopixels.show()
+
+  print(colorString)
 
   # set analog output to 0-3.3V (0-65535 in increments)
   aout.value = i * 256
