@@ -22,6 +22,10 @@ PINK = fancy.CRGB(255, 127, 127)
 MINT = fancy.CRGB(127, 255, 127)
 ROBIN = fancy.CRGB(127, 127, 255)
 
+BARBATOS_GREEN = fancy.CRGB(11, 142, 120)
+BARBATOS_TEAL_DARK = fancy.CRGB(5,150,154)
+BARBATOS_TEAL_LIGHT = fancy.CRGB(62, 216, 237)
+
 def make_gradient(colors, steps=24, brightness=0.1, wrap=True):
     values = []
     ratio = 1.0/len(colors)
@@ -55,6 +59,7 @@ gradients = {
     'green_to_off': ([GREEN, BLACK], False),
     'blue_to_off': ([BLUE, BLACK], False),
     'red_to_off': ([RED, BLACK], False),
+    'barbatos_pulse':([BLACK, BARBATOS_TEAL_LIGHT, BARBATOS_TEAL_DARK, BARBATOS_GREEN], False)
 }
 
 def generate():
