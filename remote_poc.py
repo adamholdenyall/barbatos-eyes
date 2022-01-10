@@ -7,9 +7,18 @@ print(gc.mem_free())
 import pulseio
 import board
 import adafruit_irremote
+from digitalio import DigitalInOut, Direction, Pull
+import touchio
+import adafruit_dotstar as dotstar
+import time
+import neopixel
+
 
 pulsein = pulseio.PulseIn(board.D2, maxlen=120, idle_state=True)
 decoder = adafruit_irremote.GenericDecode()
+# One pixel connected internally!
+dot = dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=.1)
+
 
 # IR Remote Mapping
 '''
@@ -74,7 +83,13 @@ while True:
         print("Decoded:", code)
         if len(code) > 3:
             command = code[2];
-            print(codes[command])
+            val = codes[command];
+            if val == "1":
+                dot[0] = 0xFF0000
+            elif val == "2":
+                dot[0] = 0x00FF00
+            print()
+            
     except adafruit_irremote.IRNECRepeatException:  # unusual short code!
         print("NEC repeat!")
     except adafruit_irremote.IRDecodeException as e:     # failed to decode
