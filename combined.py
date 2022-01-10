@@ -87,6 +87,7 @@ icy = (179, 65971, 658099, 1973939, 4342451, 8026803, 11776908, 11776806, 117767
 rgb = (8388608, 5701632, 3670784, 2165248, 1119744, 468992, 147968, 25600, 28928, 19457, 12293, 6925, 3355, 1328, 332, 113, 100, 131138, 458792, 1114134, 2162698, 3670019, 5701632, 8388608)
 
 activeFader = Fader(pride)
+activeInterval = 0.1
 
 while True:
     activeFader.update()
@@ -102,17 +103,23 @@ while True:
                 command = code[2];
                 val = codes[command];
                 if val == "1":
-                    activeFader = Fader(green_to_off)
+                    activeFader = Fader(green_to_off, interval=activeInterval)
                 elif val == "2":
-                    activeFader = Fader(red_to_off)
+                    activeFader = Fader(red_to_off, interval=activeInterval)
                 elif val == "3":
-                    activeFader = Fader(pride)
+                    activeFader = Fader(pride, interval=activeInterval)
                 elif val == "4":
-                    activeFader = Fader(barbatos_pulse)
+                    activeFader = Fader(barbatos_pulse, interval=activeInterval)
                 elif val == "5":
-                    activeFader = Fader(icy)
+                    activeFader = Fader(icy, interval=activeInterval)
                 elif val == "6":
-                    activeFader = Fader(rgb)
+                    activeFader = Fader(rgb, interval=activeInterval)
+                elif val == "<":
+                    activeInterval += 0.02
+                    activeFader.interval = activeInterval;
+                elif val == ">":
+                    activeInterval = max(0.01, activeInterval - 0.02);
+                    activeFader.interval = activeInterval;
                 print(val)
                 
         except adafruit_irremote.IRNECRepeatException:  # unusual short code!
